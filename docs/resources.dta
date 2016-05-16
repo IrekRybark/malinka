@@ -1,0 +1,13 @@
+resources = 
+{
+    { "website": "http://mattrichardson.com/Raspberry-Pi-Flask/",
+      "author": "Matt Richardson",
+      "title": "Serving Raspberry Pi with Flask",
+      "keywords": ["flask", "raspberry pi"],
+    },
+    { "website": "http://randomnerdtutorials.com/raspberry-pi-web-server-using-flask-to-control-gpios/",
+      "author": "Rui Santos",
+      "title": "Raspberry Pi Web Server using Flask to Control GPIOs",
+      "keywords": ["flask", "raspberry pi", "gpio"],
+    },
+}

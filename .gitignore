@@ -1,0 +1,9 @@
+# pyCharm
+.idea/
+
+dist/
+docs/build/
+media/
+
+*.bak
+*.pyc
