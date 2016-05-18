@@ -5,12 +5,12 @@ import time
 import codecs
 import struct
 
-import pigpio
+# import pigpio
 from pigpioclock import Clock
 
-pi1 = pigpio.pi()       # pi1 accesses the local Pi's gpios
+#pi1 = pigpio.pi()       # pi1 accesses the local Pi's gpios
 
-clk = Clock(pi1)
+clk = Clock(None)
 
 # clk.set_hour(1)
 

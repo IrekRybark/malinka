@@ -7,13 +7,24 @@ class Config:
     def __init__(self, filename):
         self.filename = filename
 
-        conf = cp.ConfigParser()
-        conf.read(filename)
+        self.conf = cp.ConfigParser()
+        self.conf.read(filename)
+        self.get()
 
-        self.pwm_range_h = conf["PWMRange"]["hours"]
-        self.pwm_range_m = conf["PWMRange"]["minutes"]
-        self.pwm_range_s = conf["PWMRange"]["seconds"]
+    def get(self):
+        self.pwm_range_h = self.conf["PWMRange"]["hours"]
+        self.pwm_range_m = self.conf["PWMRange"]["minutes"]
+        self.pwm_range_s = self.conf["PWMRange"]["seconds"]
 
+    def save_pwm_ranges(self):
+        """ Save PWM range data to the configuration
+        :return: nothing
+        """
+        self.conf["PWMRange"]["hours"] = self.pwm_range_h
+        self.conf["PWMRange"]["minutes"] = self.pwm_range_m
+        self.conf["PWMRange"]["seconds"] = self.pwm_range_s
+
+        self.conf.write(self.filename)
 
 
 
