@@ -26,9 +26,11 @@ class Clock:
         self.cfg = config.Config("clock.cfg")
 
 #        self.pi.set_pull_up_down(GPIO_CLK_H, io.PUD_OFF)
-        self.pi.set_PWM_range(GPIO_CLK_H, GPIO_CLK_RANGE)
+#        self.pi.set_PWM_range(GPIO_CLK_H, GPIO_CLK_RANGE)
 #        self.pi.set_PWM_range(GPIO_CLK_M, GPIO_CLK_RANGE)      
 #        self.pi.set_PWM_range(GPIO_CLK_S, GPIO_CLK_RANGE)
+
+
 
     def read_config(self):
         c = config.Config("clock.cfg")
