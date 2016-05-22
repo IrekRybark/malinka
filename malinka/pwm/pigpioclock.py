@@ -30,8 +30,6 @@ class Clock:
 #        self.pi.set_PWM_range(GPIO_CLK_M, GPIO_CLK_RANGE)      
 #        self.pi.set_PWM_range(GPIO_CLK_S, GPIO_CLK_RANGE)
 
-
-
     def read_config(self):
         c = config.Config("clock.cfg")
         try:

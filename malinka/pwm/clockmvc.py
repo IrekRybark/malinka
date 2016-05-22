@@ -27,8 +27,9 @@ class ClockModel(object):
 
 class ClockView(object):
     """
-    The class is responsible for presenting time.
+    The base class responsible for presenting time.
     The time can be shown in traditional way using clock face or some other method like binary numbers or voltmeters.
+    Override show() to implement other methods of rendering time.
     """
 
     def set_time(self, time):

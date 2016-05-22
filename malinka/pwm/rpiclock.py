@@ -2,6 +2,7 @@ import datetime
 import time
 
 from clockmvc import ClockController, ClockView
+from config import Config
 
 
 class RPiClockViewMeters(ClockView):
@@ -11,11 +12,17 @@ class RPiClockViewMeters(ClockView):
     """
     def __init__(self):
         super(RPiClockViewMeters, self).__init__()
-        self.view_name = 'RPi'
+        self.view_name = 'RPiPWM'
 
         self.gpio_pin_h = 4
         self.gpio_pin_m = 21
         self.gpio_pin_s = 22
+
+        self.cfg = Config('clock.cfg')
+        self.pwm_range_h = self.cfg.pwm_range_h
+        self.pwm_range_m = self.cfg.pwm_range_m
+        self.pwm_range_s = self.cfg.pwm_range_s
+
 
     def set_time(self, time):
         self.time = time
