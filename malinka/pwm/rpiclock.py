@@ -1,8 +1,22 @@
 import datetime
 import time
 
+import pigpio
+
 from clockmvc import ClockController, ClockView
 from config import Config
+
+
+class TimePart():
+
+    def __inint__(self, gpio_pin, pwm_range, increment):
+        self.gpio_pin = gpio_pin
+        self.pwm_range = pwm_range
+        self.increment = increment
+        self.step = pwm_range / increment
+    
+    def duty_cycle(self, part_value):
+        return part_value * self.step 
 
 
 class RPiClockViewMeters(ClockView):
@@ -13,29 +27,38 @@ class RPiClockViewMeters(ClockView):
     def __init__(self):
         super(RPiClockViewMeters, self).__init__()
         self.view_name = 'RPiPWM'
-
-        self.gpio_pin_h = 4
-        self.gpio_pin_m = 21
-        self.gpio_pin_s = 22
-
+        
         self.cfg = Config('clock.cfg')
-        self.pwm_range_h = self.cfg.pwm_range_h
-        self.pwm_range_m = self.cfg.pwm_range_m
-        self.pwm_range_s = self.cfg.pwm_range_s
+        time_parts = dict([
+             ("h", TimePart(self.cfg.gpio_pin_h, self.cfg.pwm_range_h, 12)),
+             ("m", TimePart(self.cfg.gpio_pin_m, self.cfg.pwm_range_m, 60)),
+             ("s", TimePart(self.cfg.gpio_pin_s, self.cfg.pwm_range_s, 60)),
+            ])
+        
+        self.pi = pigpio.pi()       # pi accesses the local Pi's gpios
+        for p in time_parts:
+            self.set_gpio_range(p.gpio_pin, p.pwm_range)
 
 
     def set_time(self, time):
         self.time = time
         self.show()
 
+    def get_time_part(part):
+        return {
+            "h": self.time.hour,
+            "m": self.time.minute,
+            "s": self.time.second,
+            }[part]
+    
     def show(self):
         print self.view_name
         print "Hour meter:    ", self.time.hour
         print "Minute meter:  ", self.time.minute
         print "Second meters: ", self.time.second
-#        self.pi.set_PWM_range(GPIO_CLK_H, GPIO_CLK_RANGE)
-#        self.pi.set_PWM_range(GPIO_CLK_M, GPIO_CLK_RANGE)
-#        self.pi.set_PWM_range(GPIO_CLK_S, GPIO_CLK_RANGE)
+
+        for p in time_parts:
+            self.pi.set_PWM_dutycycle(p.gpio_pin, p.duty_cycle(get_time_part(p)))
 
 
 class RPiClockController(ClockController):

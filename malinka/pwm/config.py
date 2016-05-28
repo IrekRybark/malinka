@@ -9,12 +9,14 @@ class Config:
 
         self.conf = cp.ConfigParser()
         self.conf.read(filename)
-        self.get()
 
-    def get(self):
         self.pwm_range_h = self.conf.get("PWMRange", "hours")
         self.pwm_range_m = self.conf.get("PWMRange", "minutes")
         self.pwm_range_s = self.conf.get("PWMRange", "seconds")
+        
+        self.gpio_pin_h = self.conf.get("GPIOPin", "hours")
+        self.gpio_pin_m = self.conf.get("GPIOPin", "minutes")
+        self.gpio_pin_s = self.conf.get("GPIOPin", "seconds")
 
     def save_pwm_ranges(self):
         """ Save PWM range data to the configuration
