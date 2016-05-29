@@ -1,6 +1,7 @@
 import datetime
 import time
 
+
 from observable import Observable
 
 class ClockModel(object):

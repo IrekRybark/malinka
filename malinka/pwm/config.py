@@ -10,13 +10,15 @@ class Config:
         self.conf = cp.ConfigParser()
         self.conf.read(filename)
 
-        self.pwm_range_h = self.conf.get("PWMRange", "hours")
-        self.pwm_range_m = self.conf.get("PWMRange", "minutes")
-        self.pwm_range_s = self.conf.get("PWMRange", "seconds")
+        self.clock_24h = self.conf.getboolean("Clock", "mode24h")
+
+        self.pwm_range_h = self.conf.getint("PWMRange", "hours")
+        self.pwm_range_m = self.conf.getint("PWMRange", "minutes")
+        self.pwm_range_s = self.conf.getint("PWMRange", "seconds")
         
-        self.gpio_pin_h = self.conf.get("GPIOPin", "hours")
-        self.gpio_pin_m = self.conf.get("GPIOPin", "minutes")
-        self.gpio_pin_s = self.conf.get("GPIOPin", "seconds")
+        self.gpio_pin_h = self.conf.getint("GPIOPin", "hours")
+        self.gpio_pin_m = self.conf.getint("GPIOPin", "minutes")
+        self.gpio_pin_s = self.conf.getint("GPIOPin", "seconds")
 
     def save_pwm_ranges(self):
         """ Save PWM range data to the configuration

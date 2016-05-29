@@ -8,7 +8,7 @@ import sched
 from threading import Timer
 
 # import pigpio
-from pigpioclock import Clock
+from malinka.pwm.pigpioclock import Clock
 
 #pi1 = pigpio.pi()       # pi1 accesses the local Pi's gpios
 
