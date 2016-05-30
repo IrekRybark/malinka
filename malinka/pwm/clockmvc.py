@@ -1,8 +1,8 @@
 import datetime
 import time
 
-
 from observable import Observable
+
 
 class ClockModel(object):
     """
@@ -38,7 +38,7 @@ class ClockView(object):
         self.show()
 
     def show(self):
-        print "Set time: ", self.time.hour, ":", self.time.minute, ":", self.time.second
+        print "Time: ", self.time.hour, ":", self.time.minute, ":", self.time.second
 
 
 class ClockController(object):
