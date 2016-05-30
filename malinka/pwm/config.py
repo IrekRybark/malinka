@@ -20,18 +20,7 @@ class Config:
         self.gpio_pin_m = self.conf.getint("GPIOPin", "minutes")
         self.gpio_pin_s = self.conf.getint("GPIOPin", "seconds")
 
-    def save_pwm_ranges(self):
-        """ Save PWM range data to the configuration
-        :return: nothing
-        """
-        self.conf["PWMRange"]["hours"] = self.pwm_range_h
-        self.conf["PWMRange"]["minutes"] = self.pwm_range_m
-        self.conf["PWMRange"]["seconds"] = self.pwm_range_s
-
-        self.conf.write(self.filename)
-
-
-
+ 
 def main():
     pass
     

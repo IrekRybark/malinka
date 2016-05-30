@@ -14,6 +14,9 @@ from config import Config
 
 
 class TimePart():
+    """ 
+    Class stores control parameters for a given part of time (hour, minute, etc.)
+    """
 
     def __init__(self, gpio_pin, pwm_range, increment):
         self.gpio_pin = gpio_pin
@@ -27,9 +30,10 @@ class TimePart():
 
 class RPiClockViewMeters(ClockView):
     """
-    The class is responsible for presenting time.
-    The time can be shown in traditional way using clock face or some other method like binary numbers or voltmeters.
+    The class is responsible for presenting time using miliamp meterr 
+    by means of changing duty cycle of PWM signals in RaspberryPi.
     """
+    
     def __init__(self):
         super(RPiClockViewMeters, self).__init__()
         self.view_name = 'RPiPWM'
@@ -42,11 +46,16 @@ class RPiClockViewMeters(ClockView):
              ("s", TimePart(self.cfg.gpio_pin_s, self.cfg.pwm_range_s, 60)),
             ])
 
-        self.pi = pigpio_sim.pi()       # pi accesses the local Pi's gpios
+        self.pi = pigpio_sim.pi() # pi accesses the local Pi's gpios
+        # initialize PWM duty cycle ranges
         for p in self.time_parts:
             self.pi.set_gpio_range(self.time_parts[p].gpio_pin, self.time_parts[p].pwm_range)
 
     def set_time(self, time):
+        """
+        :param time: time value 1-24
+        :return: nothing
+        """        
         self.time = time
         self.show()
 
@@ -64,6 +73,10 @@ class RPiClockViewMeters(ClockView):
                 return hour
 
     def get_time_part(self, part):
+        """ Get part of time value (h, m, s).
+        :param part: time part (h, m, s)
+        :return: TimePart() object
+        """        
         return {
             "h": self.hour_24_12(self.time.hour),
             "m": self.time.minute,
@@ -71,6 +84,9 @@ class RPiClockViewMeters(ClockView):
             }[part]
     
     def show(self):
+        """ Set PWM duty cycles for each time part on correspinding GPIO output
+        :return: nothing
+        """
         print self.time.hour, self.time.minute, self.time.second
         for p in self.time_parts:
             self.pi.set_PWM_dutycycle(self.time_parts[p].gpio_pin, self.time_parts[p].duty_cycle(self.get_time_part(p)))
@@ -79,24 +95,26 @@ class RPiClockViewMeters(ClockView):
 class RPiClockController(ClockController):
 
     def make_view(self):
+        """ Make view object """
         # super(RPiClockController, self).ma
         return RPiClockViewMeters()
 
 
 def update_time(controller):
+    """ Trigger controller update and set the timer for the next update
+    :param controller: controller object
+    :return: nothing
+    """
     controller.update_time()
     Timer(0.5, update_time, ()).start()  # can we use some interrupts for this
 
 def main():
     controller = RPiClockController()
 
-    new_view = RPiClockViewMeters()
-    controller.add_view(new_view)
+    controller.add_view(RPiClockViewMeters())
 
     # loop
     update_time(controller)
-
-    controller.del_view(new_view)
 
 
 if __name__ == "__main__":
