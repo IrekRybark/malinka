@@ -10,6 +10,7 @@ class RPiClockController(ClockController):
         super(RPiClockController, self).__init__()
         self.add_view(RPiClockViewMeters())
         self.add_view(RPiClockViewChimes())
+        self.add_view(RPiClockViewTicking())
 
 if __name__ == "__main__":
     pass
