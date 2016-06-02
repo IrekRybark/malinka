@@ -29,19 +29,19 @@ class RPiClockViewChimes(ClockView):
     def show(self):
         """ """ 
         # ToDo: fix the test intervals 
-        
+        minute_now = self.time.minute
         if self.last_played_minute == None:
-            self.last_played_minute = self.time.minute  # do not make sound when starting up
-        if self.last_played_minute != self.time.minute:
-            self.last_played_minute = self.time.minute
+            self.last_played_minute = minute_now  # do not make sound when starting up
+        if self.last_played_minute != minute_now:
+            self.last_played_minute = minute_now
             
-            count = (self.time.minute % 10)  # 0...9
+            count = (minute_now % 10)  # 0...9
             if count == 0:
                 count = 9  # 10 times
             else:
                 count -= 1 # count + 1 times
                 
-            if self.time.minute % 2 == 0:
+            if minute_now % 2 == 0:
                 sound = self.sound_hour
             else:
                 sound = self.sound_halfhour
