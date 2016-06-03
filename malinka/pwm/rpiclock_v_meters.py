@@ -11,7 +11,7 @@ from config import Config
 
 class TimePart():
     """ 
-    Class stores control parameters for a given part of time (hour, minute, etc.)
+    Class stores control parameters for displaying a given part of time (hour, minute, etc.)
     """
 
     def __init__(self, gpio_pin, pwm_range, increment):
@@ -68,7 +68,7 @@ class RPiClockViewMeters(ClockView):
             else:
                 return hour
 
-    def get_time_part(self, part):
+    def get_time_part_valule(self, part):
         """ Get part of time value (h, m, s).
         :param part: time part (h, m, s)
         :return: TimePart() object
@@ -85,5 +85,7 @@ class RPiClockViewMeters(ClockView):
         """
         print self.time.hour, self.time.minute, self.time.second
         for p in self.time_parts:
-            self.pi.set_PWM_dutycycle(self.time_parts[p].gpio_pin, self.time_parts[p].duty_cycle(self.get_time_part(p)))
+            time_part = self.time_parts[p]
+            self.pi.set_PWM_dutycycle(time_part.gpio_pin, 
+                                      time_part.duty_cycle(self.get_time_part_value(p)))
 
