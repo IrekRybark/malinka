@@ -26,10 +26,10 @@ class RPiClockViewTicking(ClockView):
         
     def show(self):
         """ """ 
-        # ToDo: fix the test intervals 
         second_now = self.time.second
         if self.last_played_second == None:
             self.last_played_second = second_now  # do not make sound when starting up
+            
         if self.last_played_second != second_now:
             self.last_played_second = second_now
             
